@@ -35,7 +35,12 @@ public class Atacadao
     private static String PATH_ZIP_CODE = "//input[@id='zipcode']";
     private static String ZIP_CODE = "40365510";
     private static String PATH_STORE_LACATION_CONFIRMATION = "//button[text()='Confirmar']";
-    private static String PATH_SELECAO_LOJA = "//button[@class='flex border text-left w-full gap-2 py-2 rounded-lg border-orange outline-none']";
+    private static String PATH_SELECAO_LOJA = "//button[contains(@class, 'flex') " +
+            "and contains(@class, 'border') " +
+            "and contains(@class, 'text-left') " +
+            "and contains(@class, 'w-full') " +
+            "and contains(@class, 'gap-2') " +
+            "and contains(@class, 'py-2') and contains(@class, 'rounded-lg')]";
     private static String PATH_DIV_PAGINA_OFERTAS = "//div[@class='flex justify-center md:justify-flex-start']";
     private static String STORE_BUTTON = "//div[@class='flex justify-center md:justify-flex-start']" +
             "//button[@data-testid='store-button']";
@@ -91,12 +96,6 @@ public class Atacadao
 
 
 
-            LocalDate data = LocalDate.now();
-            String arquivoCSV = "ofertas_atacadao_" + data + ".csv";
-
-            try(FileWriter fileWriter = new FileWriter(arquivoCSV, true);
-                PrintWriter printWriter = new PrintWriter(fileWriter)) {
-
 
                 for (WebElement s : ulProdutos.findElements(By.tagName("li"))){
 
@@ -116,15 +115,10 @@ public class Atacadao
                                 .getText().replaceAll("[-%]" , "");
 
 
-                        String linhaCSV = formatadorCSV(descricao, preco, detalhePromocao, precoDesconto, taxaDesconto);
 
                         listaProdutos.add(
                                 conversorProduto(descricao, preco, detalhePromocao, precoDesconto, taxaDesconto));
 
-                        printWriter.print(linhaCSV);
-                        printWriter.println();
-
-                        System.out.println(linhaCSV);
 
 
                     } catch (NoSuchElementException e) {
@@ -134,10 +128,6 @@ public class Atacadao
                     }
                 }
 
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
 
             quantidadePaginas++;
         }
