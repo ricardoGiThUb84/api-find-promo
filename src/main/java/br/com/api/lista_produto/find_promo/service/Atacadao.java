@@ -83,6 +83,8 @@ public class Atacadao
 
 
 
+
+
         while(quantidadePaginas <= maximoPaginas){
 
             String locate = URL.replaceAll("[0-9]+$", String.valueOf(quantidadePaginas));
